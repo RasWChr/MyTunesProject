@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="dk.easv.demo.GUI.Controller.MainController"
+            prefWidth="1000" prefHeight="700">
+
+    <top>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <Label text="MyTunes Music Player" style="-fx-font-size: 24; -fx-font-weight: bold;"/>
+
+            <!-- Now Playing Section -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Now Playing:" style="-fx-font-weight: bold;"/>
+                <Label fx:id="nowPlayingLabel" text="(none)" style="-fx-font-style: italic;"/>
+            </HBox>
+
+            <!-- Media Controls -->
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="playButton" text="▶ Play" onAction="#playMusic"/>
+                <Button fx:id="pauseButton" text="⏸ Pause" onAction="#pauseMusic"/>
+                <Button fx:id="stopButton" text="⏹ Stop" onAction="#stopMusic"/>
+                <Label text="Volume"/>
+                <Slider fx:id="volumeSlider" prefWidth="100" min="0" max="100" value="50"/>
+                <Label fx:id="currentTimeLabel" text="00:00"/>
+                <Label text="/"/>
+                <Label fx:id="totalTimeLabel" text="00:00"/>
+                <ProgressBar fx:id="progressBar" prefWidth="200"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <SplitPane dividerPositions="0.3, 0.7">
+            <!-- Left: Playlists -->
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <Label text="Playlists" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+
+                <TableView fx:id="playlistsTableView" prefHeight="300">
+                    <columns>
+                        <TableColumn text="Name" prefWidth="150">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="name" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Songs" prefWidth="60">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="songCount" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Time" prefWidth="80">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="totalDuration" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10">
+                    <Button text="New..." onAction="#createNewPlaylist" prefWidth="70"/>
+                    <Button text="Edit..." onAction="#editPlaylist" prefWidth="70"/>
+                    <Button text="Delete" onAction="#deletePlaylist" prefWidth="70"/>
+                </HBox>
+            </VBox>
+
+            <!-- Middle: Songs in Playlist -->
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <Label text="Songs on Playlist" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+
+                <ListView fx:id="playlistSongsListView" prefHeight="300"/>
+
+                <HBox spacing="10">
+                    <Button text="↑ Move Up" onAction="#moveSongUp" prefWidth="90"/>
+                    <Button text="↓ Move Down" onAction="#moveSongDown" prefWidth="90"/>
+                    <Button text="Remove" onAction="#removeSongFromPlaylist" prefWidth="70"/>
+                </HBox>
+            </VBox>
+
+            <!-- Right: All Songs -->
+            <VBox spacing="10" style="-fx-padding: 10;">
+                <Label text="Songs" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+
+                <!-- Filter Section -->
+                <HBox spacing="10">
+                    <TextField fx:id="filterField" promptText="Filter songs..." prefWidth="200"/>
+                    <Button fx:id="filterButton" text="Filter" onAction="#applyFilter" prefWidth="70"/>
+                </HBox>
+
+                <TableView fx:id="songsTableView" prefHeight="300">
+                    <columns>
+                        <TableColumn text="Title" prefWidth="150">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="title" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Artist" prefWidth="120">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="artist" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Category" prefWidth="80">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="category" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Time" prefWidth="60">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="duration" />
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10">
+                    <Button text="New..." onAction="#createNewSong" prefWidth="70"/>
+                    <Button text="Edit..." onAction="#editSong" prefWidth="70"/>
+                    <Button text="Delete" onAction="#deleteSong" prefWidth="70"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Add to Playlist →" onAction="#addSongToPlaylist" prefWidth="130"/>
+                    <Button text="Close" onAction="#closeApplication" prefWidth="70"/>
+                </HBox>
+            </VBox>
+        </SplitPane>
+    </center>
+</BorderPane>
